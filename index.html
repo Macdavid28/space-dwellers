@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="heading">Space Dwellers 🚀🛰️</h1>
+      <div class="space-bg" id="space-bg"></div>
+
+      <div class="card">
+        <img src="" alt="" id="image" />
+        <div class="info">
+          <h2 class="name" id="name"></h2>
+          <p class="email" id="email"></p>
+          <p class="phone" id="phone"></p>
+          <p class="address" id="address"></p>
+          <div id="loader">Fetching space data...</div>
+        </div>
+        <button class="button" onclick="fetchUserAndSpace()">
+          Generate User
+        </button>
+      </div>
+    </div>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
+      body {
+        margin: 0;
+        font-family: "Quicksand", sans-serif;
+        background: linear-gradient(135deg, #1f2933, #111827);
+      }
+
+      .heading {
+        color: #e5e7eb;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .card {
+        background: #f9fafb;
+        width: 300px;
+        padding: 28px 22px;
+        border-radius: 18px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+
+        &:hover {
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+        }
+
+        & img {
+          width: 115px;
+          height: 115px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 5px solid #22c55e;
+          margin-bottom: 15px;
+          background: #ecfdf5;
+        }
+      }
+
+      .info h2 {
+        font-size: 1rem;
+        margin: 10px 0 6px;
+        color: #111827;
+
+        & span {
+          color: #22c55e;
+        }
+      }
+
+      .info p {
+        font-size: 0.92rem;
+        color: #374151;
+        margin: 6px 0;
+
+        & span {
+          font-weight: 600;
+          color: #16a34a;
+        }
+      }
+
+      .card::after {
+        content: "";
+        display: block;
+        width: 70px;
+        height: 5px;
+        background: linear-gradient(90deg, #22c55e, #4ade80);
+        border-radius: 10px;
+        margin: 14px auto 0;
+      }
+
+      .button {
+        margin-top: 15px;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background-color: #111827;
+        color: #e5e7eb;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #16a34a;
+          color: #ffffff;
+        }
+      }
+
+      .space-bg {
+        position: fixed;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0.18;
+        z-index: -1;
+        filter: grayscale(30%);
+      }
+
+      #loader {
+        display: none;
+        padding-bottom: 10px;
+        font-size: 0.9rem;
+        color: #22c55e;
+      }
+    </style>
+
+    <script>
+      const fetchUserAndSpace = async () => {
+        try {
+          const loader = document.getElementById("loader");
+          const spaceBg = document.getElementById("space-bg");
+
+          loader.style.display = "block";
+          loader.textContent = "Fetching human data";
+
+          const userResponse = await fetch("https://randomuser.me/api");
+          const userData = await userResponse.json();
+          const user = userData.results[0];
+          console.log(user);
+          loader.textContent = "Fetching planetary data";
+
+          const nasaResponse = await fetch(
+            "https://api.nasa.gov/planetary/apod?api_key=PsAKAJrvLjY0l1phWJ8cjAPbH8rxpVQkLEY6aZDY",
+          );
+          const nasaData = await nasaResponse.json();
+
+          loader.style.display = "none";
+
+          document.getElementById("name").innerHTML =
+            `<span>Full Name:</span> ${user.name.title} ${user.name.first} ${user.name.last}`;
+
+          document.getElementById("email").innerHTML =
+            `<span>Email:</span> ${user.email}`;
+
+          document.getElementById("phone").innerHTML =
+            `<span>Phone:</span> ${user.phone}`;
+
+          document.getElementById("address").innerHTML =
+            `<span>Address:</span> No. ${user.location.street.number}
+       ${user.location.street.name},
+        ${user.location.city},
+        ${user.location.country}`;
+
+          document.getElementById("image").src = user.picture.large;
+
+          spaceBg.style.backgroundImage = `url(${nasaData.url})`;
+        } catch (error) {
+          console.error("Failed to fetch data", error);
+        }
+      };
+
+      fetchUserAndSpace();
+    </script>
+  </body>
+</html>
