@@ -3,123 +3,187 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Space Dwellers</title>
   </head>
   <body>
     <div class="container">
       <h1 class="heading">Space Dwellers 🚀🛰️</h1>
-      <div class="space-bg" id="space-bg"></div>
-
-      <div class="card">
-        <img src="" alt="" id="image" />
-        <div class="info">
-          <h2 class="name" id="name"></h2>
-          <p class="email" id="email"></p>
-          <p class="phone" id="phone"></p>
-          <p class="address" id="address"></p>
-          <div id="loader">Fetching space data...</div>
+      <div class="sub-container">
+        <div class="space-bg" id="space-bg"></div>
+        <div class="card">
+          <img src="" alt="" id="image" />
+          <div class="info">
+            <h2 class="name" id="name"></h2>
+            <p class="email" id="email"></p>
+            <p class="phone" id="phone"></p>
+            <p class="address" id="address"></p>
+            <div id="user-loader">Fetching user data...</div>
+          </div>
         </div>
-        <button class="button" onclick="fetchUserAndSpace()">
-          Generate User
-        </button>
+        <div class="card space-card">
+          <img src="" alt="" id="space-image" />
+          <div class="space-info">
+            <h2 id="space-title"></h2>
+            <p id="space-date"></p>
+            <div id="space-loader">Fetching space data...</div>
+          </div>
+        </div>
       </div>
+      <button class="button" onclick="fetchUserAndSpace()">
+        Generate User And Space
+      </button>
     </div>
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 
+      :root {
+        --bg-dark: #0f172a;
+        --bg-mid: #1f2933;
+        --card-light: #f8fafc;
+        --green-main: #22c55e;
+        --green-soft: #4ade80;
+        --text-dark: #111827;
+        --text-muted: #6b7280;
+      }
+
       body {
         margin: 0;
         font-family: "Quicksand", sans-serif;
-        background: linear-gradient(135deg, #1f2933, #111827);
+        background: linear-gradient(to bottom, #1f2933, #020617);
+        color: #e5e7eb;
       }
 
       .heading {
-        color: #e5e7eb;
-        margin-bottom: 20px;
-        letter-spacing: 1px;
+        margin-bottom: 28px;
+        letter-spacing: 1.5px;
+        font-weight: 600;
       }
 
       .container {
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+      }
+
+      .sub-container {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .card {
-        background: #f9fafb;
+        background: var(--card-light);
         width: 300px;
-        padding: 28px 22px;
-        border-radius: 18px;
+        padding: 26px 22px;
+        border-radius: 20px;
         text-align: center;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
+        position: relative;
+      }
 
-        &:hover {
-          transform: translateY(-8px) scale(1.02);
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
-        }
+      .card:hover {
+        transform: translateY(-6px);
+      }
 
-        & img {
-          width: 115px;
-          height: 115px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 5px solid #22c55e;
-          margin-bottom: 15px;
-          background: #ecfdf5;
-        }
+      .card img {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--green-main);
+        background: #ecfdf5;
+        margin-bottom: 14px;
       }
 
       .info h2 {
-        font-size: 1rem;
-        margin: 10px 0 6px;
-        color: #111827;
-
-        & span {
-          color: #22c55e;
-        }
+        font-size: 1.05rem;
+        margin: 8px 0;
+        color: var(--text-dark);
       }
 
       .info p {
-        font-size: 0.92rem;
-        color: #374151;
+        font-size: 0.9rem;
+        color: var(--text-muted);
         margin: 6px 0;
+      }
 
-        & span {
-          font-weight: 600;
-          color: #16a34a;
-        }
+      .info span {
+        font-weight: 600;
+        color: var(--green-main);
+      }
+
+      .space-card {
+        background: linear-gradient(160deg, #020617, #0b1224);
+        color: #e5e7eb;
+        border: 1px solid rgba(56, 189, 248, 0.15);
+      }
+
+      .space-card img {
+        width: 100%;
+        height: 170px;
+        border-radius: 14px;
+        object-fit: cover;
+        background: var(--bg-dark);
+        margin-bottom: 12px;
+      }
+
+      .space-info h2 {
+        font-size: 1rem;
+        color: #38bdf8;
+        margin-bottom: 6px;
+      }
+
+      .space-info p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: #cbd5f5;
+      }
+
+      .space-info span {
+        font-weight: 600;
+        color: var(--green-main);
       }
 
       .card::after {
         content: "";
         display: block;
-        width: 70px;
-        height: 5px;
-        background: linear-gradient(90deg, #22c55e, #4ade80);
-        border-radius: 10px;
+        width: 60px;
+        height: 4px;
         margin: 14px auto 0;
+        background: linear-gradient(
+          90deg,
+          var(--green-main),
+          var(--green-soft)
+        );
+        border-radius: 999px;
       }
 
       .button {
-        margin-top: 15px;
-        padding: 14px;
+        margin-top: 26px;
+        padding: 14px 22px;
+        border-radius: 999px;
         border: none;
-        border-radius: 12px;
-        background-color: #111827;
-        color: #e5e7eb;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        background: linear-gradient(
+          135deg,
+          var(--green-main),
+          var(--green-soft)
+        );
+        color: #022c22;
         cursor: pointer;
-        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.35);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
 
-        &:hover {
-          background-color: #16a34a;
-          color: #ffffff;
-        }
+      .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 35px rgba(34, 197, 94, 0.55);
       }
 
       .space-bg {
@@ -127,40 +191,35 @@
         inset: 0;
         background-size: cover;
         background-position: center;
-        opacity: 0.18;
+        opacity: 0.12;
         z-index: -1;
-        filter: grayscale(30%);
+        filter: grayscale(40%) blur(1px);
       }
 
-      #loader {
+      #user-loader,
+      #space-loader {
         display: none;
-        padding-bottom: 10px;
-        font-size: 0.9rem;
-        color: #22c55e;
+        margin-top: 8px;
+        font-size: 0.85rem;
+        color: var(--green-main);
       }
     </style>
 
     <script>
       const fetchUserAndSpace = async () => {
-        try {
-          const loader = document.getElementById("loader");
-          const spaceBg = document.getElementById("space-bg");
+        const userLoader = document.getElementById("user-loader");
+        const spaceLoader = document.getElementById("space-loader");
+        const spaceBg = document.getElementById("space-bg");
 
-          loader.style.display = "block";
-          loader.textContent = "Fetching human data";
+        userLoader.style.display = "block";
+        spaceLoader.style.display = "block";
+        try {
+          // user data
 
           const userResponse = await fetch("https://randomuser.me/api");
           const userData = await userResponse.json();
           const user = userData.results[0];
           console.log(user);
-          loader.textContent = "Fetching planetary data";
-
-          const nasaResponse = await fetch(
-            "https://api.nasa.gov/planetary/apod?api_key=PsAKAJrvLjY0l1phWJ8cjAPbH8rxpVQkLEY6aZDY",
-          );
-          const nasaData = await nasaResponse.json();
-
-          loader.style.display = "none";
 
           document.getElementById("name").innerHTML =
             `<span>Full Name:</span> ${user.name.title} ${user.name.first} ${user.name.last}`;
@@ -173,13 +232,27 @@
 
           document.getElementById("address").innerHTML =
             `<span>Address:</span> No. ${user.location.street.number}
-       ${user.location.street.name},
-        ${user.location.city},
-        ${user.location.country}`;
+           ${user.location.street.name},
+            ${user.location.city},
+            ${user.location.country}`;
 
-          document.getElementById("image").src = user.picture.large;
+          // space data
+          const nasaResponse = await fetch(
+            "https://api.nasa.gov/planetary/apod?api_key=PsAKAJrvLjY0l1phWJ8cjAPbH8rxpVQkLEY6aZDY",
+          );
+          const spaceData = await nasaResponse.json();
+          console.log(spaceData);
 
-          spaceBg.style.backgroundImage = `url(${nasaData.url})`;
+          document.getElementById("space-title").innerHTML =
+            `<span>Title:</span> ${spaceData.title}`;
+          document.getElementById("space-date").innerHTML =
+            `<span>Date:</span> ${spaceData.date}`;
+
+          document.getElementById("space-image").src = spaceData.url;
+
+          userLoader.style.display = "none";
+          spaceLoader.style.display = "none";
+          spaceBg.style.backgroundImage = `url(${spaceData.url})`;
         } catch (error) {
           console.error("Failed to fetch data", error);
         }
